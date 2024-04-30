@@ -1,4 +1,10 @@
-1. add venv, git, django (pip), empty django project.
-2. add pages app (to hold homepage)
-3. install pages app (settings.py) (commit)
-4. Add templates folder and configure it in settings.py
+- add venv, git, django (pip), empty django project.
+- add pages app (to hold homepage)
+- install pages app (settings.py)
+- run migrations
+- Add templates folder and configure it in settings.py
+- Test templates folder by adding homepage to pages app (homepage view can be just TemplateView)
+(run check: success)
+
+- add template inheritance
+- add tests for home route (commit)
