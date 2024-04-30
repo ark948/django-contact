@@ -1,0 +1,4 @@
+1. add venv, git, django (pip), empty django project.
+2. add pages app (to hold homepage)
+3. install pages app (settings.py) (commit)
+4. Add templates folder and configure it in settings.py
