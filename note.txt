@@ -7,4 +7,7 @@
 (run check: success)
 
 - add template inheritance
-- add tests for home route (commit)
+- add tests for home route (commit - new repo)
+- mkdir project level static folder
+- add static folder var to settings.py
+- added navbar (needs heavy editing)
