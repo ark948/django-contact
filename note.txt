@@ -1,13 +1,48 @@
-- add venv, git, django (pip), empty django project.
-- add pages app (to hold homepage)
-- install pages app (settings.py)
-- run migrations
-- Add templates folder and configure it in settings.py
-- Test templates folder by adding homepage to pages app (homepage view can be just TemplateView)
-(run check: success)
+> add venv, git, django (pip), empty django project.
+> add pages app (to hold homepage)
+> install pages app (settings.py)
+> run migrations
+> Add templates folder and configure it in settings.py
+> Test templates folder by adding homepage to pages app (homepage view can be just TemplateView)
+- (run check: success)
 
-- add template inheritance
-- add tests for home route (commit - new repo)
-- mkdir project level static folder
-- add static folder var to settings.py
-- added navbar (needs heavy editing)
+> add template inheritance
+> add tests for home route (commit - new repo)
+> mkdir project level static folder
+> add static folder var to settings.py
+> added navbar (needs heavy editing) (commit) (PROBLEM)
+
+> add background image (PROBLEM)
+- (background was added after a lot of trouble. not sure if i used the correct way. needs more research later.)
+
+- navbar still has problems (PROBLEM)
+
+> add accounts app
+> add accounts app to installed_apps
+- accounts app must use django's builtin auth app for (login, logout, signup)
+> custom user model must be added. (in accounts/models.py - AbstractUser should be inherited)
+- it is recommended by django's doc that using a customized user model (that is based on default User model) is better
+> point AUTH_USER_MODEL to our new custom user in settings.py
+- there are two ways new users will enter database, from signup page or through admin. both require a form.
+- this is aslo supported by doc, the following are tied to user and need to be re-written or extended to work with custom user model
+- UserCreationForm, UserChangeForm
+- UserChangeForm -> used in admin interface
+> add forms.py to accounts.py
+> add two new forms to accounts/forms.py
+> AdminUser also needs to be updated
+- VERY IMPORTANT: UserAdmin is what django uses to render the users list in admin panel.
+- admin itself is just a user with high permissions
+- note all changes in accounts/forms.py (added CustomUserAdmin and registered it - right after CustomUser)
+- admin interface will use this CustomUserAdmin to display the list of users
+> python manage.py makemigrations accounts
+> python manage.py migrate
+- (encountered a problem with migrations. deleted the accounts migration script and ran migrate again. the problem went away. but i have no idea what caused it.)
+- (which means it can happen again.)
+> run python manage.py check before any other command
+- OK, i have officially no idea why it happened. (no wait. william vincent book has an explanation)
+- (it is important to wait until after custom user model is created and then running migrations)
+- create an admin user to test the interface
+> python manage.py createsuperuser
+admin, admin@admin.com, 1
+> add accounts.urls to main urls file
+> commit
