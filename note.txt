@@ -6,6 +6,8 @@
 > Test templates folder by adding homepage to pages app (homepage view can be just TemplateView)
 - (run check: success)
 
+- time zone = 'Iran'
+
 > add template inheritance
 > add tests for home route (commit - new repo)
 > mkdir project level static folder
