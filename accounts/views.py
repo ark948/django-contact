@@ -13,6 +13,9 @@ from accounts.forms import CustomUserCreationForm, ManualLoginForm
 
 # Create your views here.
 
+def home(request):
+    return HttpResponseRedirect(reverse_lazy("accounts:panel"))
+
 def panel_view(request):
     if request.user.is_authenticated:
         messages.info(request, "شما وارد سایت شده اید.")
