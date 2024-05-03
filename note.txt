@@ -46,3 +46,32 @@
 admin, admin@admin.com, 1
 > add accounts.urls to main urls file
 > commit
+
+> add login redirect and logout redirect vars to settings.py
+> add login view, templates and url route
+- (login template must be in templates/registration/login.html)
+> add registration folder to templates folder
+> add LoginView to accounts/views.py, subclass it from LoginView (from django.contrib.auth.views)
+> use the admin panel to add a new user test login view
+- (this entire process is a bit confusing, since we have to constantly inherit from builtin auth views)
+- (also default forms are in english and they need to be re-written, especially signup form)
+- (it is recommended by django doc, that if a custom user model is being used, it is best to define custom forms as well)
+- crispy forms is the answer (it will let me to control the rendering behavior of django forms)
+
+- following the official documentation of django-crispy-forms version 2 (latest)
+> first, pip install django-crispy-forms
+> it needs to be added to installed_apps
+- IMPORTANT: in production environment, always activate django template cache loader.
+> django-crispy templates are now in separate packages since version 2 (so for bootstrap 5, crispy-bootstrap5 needs to be installed)
+> pip install crispy-bootstrap5
+> again, settings.py needs to be updated: add crispy-bootstrap5 to installed_apps (below crispy-forms).
+> add CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5" to settings.py
+> add CRISPY_TEMPLATE_PACK = "bootstrap5" to settings.py
+- according to django-crispy-forms, proper css and other static files of chosen css framework needs to be included.
+> add {% load crispy_forms_tags %} to any template that needs it (signup html)
+> append |crispy to form
+> refresh (relatively successful)
+
+- i decided to write my own manual login and logout flow
+- starting with manual login form and view and template
+- NOTE: to login a user, first user must be authenticated provided by a set of credentials, and then logged in to session

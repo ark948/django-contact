@@ -12,10 +12,11 @@
 </div>
 <div>
     <ul>
-        <li><a href="#">ثبت نام کاربران</a></li>
-        <li><a href="#">ورود کاربران</a></li>
+        <li><a href="{% url 'accounts:signup' %}">ثبت نام کاربران</a></li>
+        <li><a href="{% url 'accounts:login' %}">ورود کاربران</a></li>
         <li><a href="#">ورود همکاران</a></li>
-        <li><a href="#">ورود ادمین</a></li>
+        <li><a href="{% url 'admin:index' %}">ورود ادمین</a></li>
+        <li><a href="{% url 'accounts:manual_login' %}">ورود به سیستم (دستی)</a></li>
     </ul>
 </div>
 {% endblock content %}
