@@ -5,7 +5,7 @@
 {% block content %}
 <p>
     <h3>لیست مخاطبین</h3>
-    {% if item_list %}
+    {% if page_obj %}
         <table class="table table-sm">
             <tr>
                 <th>#</th>
@@ -16,9 +16,9 @@
                 <th>آدرس</th>
                 <th>ایجاد شده در:</th>
             </tr>
-        {% for item in item_list %}
+        {% for item in page_obj %}
             <tr>
-                <td>{{ forloop.counter }}</td>
+                <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.phone_number }}</td>
                 <td>{{ item.full_name }}</td>
@@ -28,6 +28,27 @@
             </tr>
         {% endfor %}
         </table>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; ص.اول</a>
+                    &nbsp&nbsp
+                    <a href="?page={{ page_obj.previous_page_number }}">قبل</a>
+                {% endif %}
+        
+                <span class="current">
+                    صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}.
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">بعد</a>
+                    &nbsp&nbsp
+                    <a href="?page={{ page_obj.paginator.num_pages }}">آخر &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        
     {% else %}
         <p>لیست شما خالی می باشد.</p>
     {% endif %}
