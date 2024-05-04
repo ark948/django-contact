@@ -70,3 +70,15 @@ def manual_new_contact(request):
                 ic(error)
                 return redirect("contacts:manual_index")
     return render(request, "contacts/manual_new_contact.html", context)
+
+@login_required
+def manual_delete_contact(request):
+    if request.method == "POST":
+        item_to_delete = ContactEntry.objects.get(pk=int(request.POST.get("id_to_delete")))
+        try:
+            if item_to_delete.owner.id == request.user.id:
+                item_to_delete.delete()
+                messages.info(request, "مخاطب حذف شد.")
+        except Exception as error:
+            ic(error)
+    return redirect("contacts:manual_index")

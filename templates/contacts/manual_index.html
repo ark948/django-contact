@@ -4,54 +4,70 @@
 
 {% block content %}
 <p>
-    <h3>لیست مخاطبین</h3>
-    {% if page_obj %}
-        <table class="table table-sm">
-            <tr>
-                <th>#</th>
-                <th>عنوان</th>
-                <th>شماره</th>
-                <th>نام کامل</th>
-                <th>ایمیل</th>
-                <th>آدرس</th>
-                <th>ایجاد شده در:</th>
-            </tr>
-        {% for item in page_obj %}
-            <tr>
-                <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.phone_number }}</td>
-                <td>{{ item.full_name }}</td>
-                <td>{{ item.email }}</td>
-                <td>{{ item.address }}</td>
-                <td>{{ item.date_created }}</td>
-            </tr>
-        {% endfor %}
-        </table>
+<h3>لیست مخاطبین</h3>
+{% if page_obj %}
+<table class="table table-sm">
+    <tr>
+        <th>#</th>
+        <th>عنوان</th>
+        <th>شماره</th>
+        <th>نام کامل</th>
+        <th>ایمیل</th>
+        <th>آدرس</th>
+        <th>ایجاد شده در:</th>
+        <th>عملیات</th>
+    </tr>
+    {% for item in page_obj %}
+    <tr>
+        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.phone_number }}</td>
+        <td>{{ item.full_name }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.address }}</td>
+        <td>{{ item.date_created }}</td>
+        <td>
+            <form method="post" action="#" style="display: inline-block;">
+                {% csrf_token %}
+                <button id="button1" class="btn btn-warning" type="submit"
+                    style="width: 60px; height: 30px; font-size: small; text-align: center; vertical-align: middle; padding: 0px;">ویرایش</button>
+            </form>
+            |
+            <form method="post" action="{% url 'contacts:manual_delete_contact' %}" style="display: inline-block;"
+                onsubmit="return confirm('آیا از حذف این مخاطب اطمینان دارید؟')">
+                {% csrf_token %}
+                <input type="hidden" id="id_to_delete" name="id_to_delete" value="{{ item.id }}">
+                <button id="button2" class="btn btn-danger" type="submit"
+                    style="width: 60px; height: 30px; font-size: small; text-align: center; vertical-align: middle; padding: 0px;">حذف</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; ص.اول</a>
-                    &nbsp&nbsp
-                    <a href="?page={{ page_obj.previous_page_number }}">قبل</a>
-                {% endif %}
-        
-                <span class="current">
-                    صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}.
-                </span>
-        
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">بعد</a>
-                    &nbsp&nbsp
-                    <a href="?page={{ page_obj.paginator.num_pages }}">آخر &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
-        
-    {% else %}
-        <p>لیست شما خالی می باشد.</p>
-    {% endif %}
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; ص.اول</a>
+        &nbsp&nbsp
+        <a href="?page={{ page_obj.previous_page_number }}">قبل</a>
+        {% endif %}
+
+        <span class="current">
+            صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">بعد</a>
+        &nbsp&nbsp
+        <a href="?page={{ page_obj.paginator.num_pages }}">آخر &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% else %}
+<p>لیست شما خالی می باشد.</p>
+{% endif %}
 </p>
 
 <p>
