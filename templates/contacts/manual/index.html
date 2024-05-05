@@ -6,7 +6,7 @@
 <p>
 <h3>لیست مخاطبین</h3>
 {% if page_obj %}
-<table class="table table-sm">
+<table class="table table-sm" style="border-collapse: separate;">
     <tr>
         <th>#</th>
         <th>عنوان</th>
@@ -15,6 +15,7 @@
         <th>ایمیل</th>
         <th>آدرس</th>
         <th>ایجاد شده در:</th>
+        <th>آخرین ویرایش</th>
         <th>عملیات</th>
     </tr>
     {% for item in page_obj %}
@@ -26,11 +27,13 @@
         <td>{{ item.email }}</td>
         <td>{{ item.address }}</td>
         <td>{{ item.date_created }}</td>
+        <td>{{ item.last_modified }}</td>
         <td>
-            <form method="post" action="#" style="display: inline-block;">
+            <form method="post" action="{% url 'contacts:manual_edit_contact' %}" style="display: inline-block;">
                 {% csrf_token %}
+                <input type="hidden" id="id_to_edit" name="id_to_edit" value="{{ item.id }}">
                 <button id="button1" class="btn btn-warning" type="submit"
-                    style="width: 60px; height: 30px; font-size: small; text-align: center; vertical-align: middle; padding: 0px;">ویرایش</button>
+                    style="width: 60px; height: 30px; font-size: medium; text-align: center; vertical-align: middle; padding: 0px;">ویرایش</button>
             </form>
             |
             <form method="post" action="{% url 'contacts:manual_delete_contact' %}" style="display: inline-block;"
@@ -38,7 +41,7 @@
                 {% csrf_token %}
                 <input type="hidden" id="id_to_delete" name="id_to_delete" value="{{ item.id }}">
                 <button id="button2" class="btn btn-danger" type="submit"
-                    style="width: 60px; height: 30px; font-size: small; text-align: center; vertical-align: middle; padding: 0px;">حذف</button>
+                    style="width: 60px; height: 30px; font-size: medium; text-align: center; vertical-align: middle; padding: 0px;">حذف</button>
             </form>
         </td>
     </tr>
@@ -71,7 +74,7 @@
 </p>
 
 <p>
-    <a href="{% url 'contacts:manual_new_contact' %}">افزودن مخاطب</a>
+    <a class="btn btn-success" href="{% url 'contacts:manual_new_contact' %}">افزودن مخاطب</a>
 </p>
 
 {% endblock content %}

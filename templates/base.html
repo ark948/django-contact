@@ -46,17 +46,18 @@
         <li class="nav-item">
           <a class="nav-link disabled" href="#">Disabled</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" style="display: inline-block;">
           {% if user.is_authenticated %}
-          Hi {{ user.username }}.
-          <form method="post" action="{% url 'accounts:logout' %}">
+          پروفایل {{ user.username }}.
+          <form method="post" action="{% url 'accounts:logout' %}" style="display: inline-block;">
             {% csrf_token %}
-            <button class="btn btn-light" type="submit">خروج</button>
+            <button class="btn btn-light" type="submit"
+              style="width: 80px; border-width: 3px; height: 35px; text-align: center; padding: 0%; vertical-align: middle; font-size: medium;">خروج</button>
           </form>
-          <form method="post" action="{% url 'accounts:manual_logout' %}">
+          <!-- <form method="post" action="{% url 'accounts:manual_logout' %}">
             {% csrf_token %}
-            <button class="btn btn-light" type="submit">خروج دستی</button>
-          </form>
+            <button class="btn btn-light" type="submit" style="width: 100px; border-color: orange; border-width: 3px; height: 35px; text-align: center; padding: 0%;">خروج دستی</button>
+          </form> -->
           {% else %}
           NOT logged in
           <a href="{% url 'accounts:login' %}">login</a>
@@ -69,8 +70,8 @@
   <main style="padding: 50px;">
     {% if messages %}
     <ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
         {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
         <div class="alert alert-success" role="alert">
           {{ message }}
@@ -80,12 +81,12 @@
           {{ message }}
         </div>
         {% else %}
-          <div class="alert alert-info" role="alert">
-            {{ message }}
-          </div>
+        <div class="alert alert-info" role="alert">
+          {{ message }}
+        </div>
         {% endif %}
-    </li>
-    {% endfor %}
+        </li>
+        {% endfor %}
     </ul>
     {% endif %}
     {% block content %}
