@@ -22,4 +22,3 @@ class CustomLoginViewTest(TestCase):
         response = self.client.get("/accounts/login/")
         self.assertEqual(response.status_code, 200)
 
-    
