@@ -77,5 +77,12 @@
 <p>
     <a class="btn btn-success" href="{% url 'contacts:manual_new_contact' %}">افزودن مخاطب</a>
 </p>
+<p>
+    <form method="post" action="{% url 'contacts:download_csv' %}">
+        {% csrf_token %}
+        <input name="id_for_csv" type="hidden" value="{{ user.id }}">
+        <button class="btn btn-primary" type="submit" style="width: 125px;">ذخیره... (csv)</button>
+    </form>
+</p>
 
 {% endblock content %}

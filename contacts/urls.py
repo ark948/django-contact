@@ -1,5 +1,5 @@
 from django.urls import path, include
-from contacts.manual_views.views import index, new_contact, delete_contact, edit_contact, process_contact_edit
+from contacts.manual_views.views import index, new_contact, delete_contact, edit_contact, process_contact_edit, download_csv
 
 
 app_name = "contacts"
@@ -10,4 +10,5 @@ urlpatterns = [
     path("manual-delete-contact", delete_contact, name="manual_delete_contact"),
     path("manual-edit-contact", edit_contact, name="manual_edit_contact"),
     path("process-contact-edit", process_contact_edit, name="process_contact_edit"),
+    path("download-csv", download_csv, name="download_csv"),
 ]

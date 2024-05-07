@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from contacts.forms import NewContactForm
 from contacts.utils import make_new_contact_entry
 from django.core.paginator import Paginator
+import csv
 from icecream import ic
 ic.configureOutput(includeContext=True)
 
@@ -111,7 +112,7 @@ def process_contact_edit(request):
                 return redirect("contacts:manual_index")
             try:
                 if item.owner.id != request.user.id:
-                    return HttpResponseForbidden
+                    return HttpResponseForbidden()
             except Exception as resource_error:
                 ic("NOT ALLOWED")
             try:
@@ -130,4 +131,38 @@ def process_contact_edit(request):
             except Exception as update_process_error:
                 ic(update_process_error)
                 return redirect("contacts:manual_index")
+    return redirect("contacts:manual_index")
+
+@login_required
+def download_csv(request):
+    if request.method == "POST":
+        ic(request.POST.get("id_for_csv"))
+        try:
+            user_id = request.POST.get("id_for_csv")
+            if request.user.id != int(user_id):
+                return HttpResponseForbidden()
+        except Exception as resource_error:
+            ic("NOT ALLOWED")
+            return redirect("contacts:manual_index")
+        try:
+            user_item_list = ContactEntry.objects.filter(owner__pk=request.user.pk)
+        except Exception as query_error:
+            ic(query_error)
+            return redirect("contacts:manual_index")
+        try:
+            response = HttpResponse(
+                content_type="text/csv",
+                headers={"Content-Disposition": 'attachment; filename="{username}_contacts.csv"'.format(username=request.user.username)},
+            )
+
+            ic("Beginning writing process...")
+            writer = csv.writer(response)
+            writer.writerow(["title", "first_name", "last_name", "phone_number", "email", "address", "date_created", "last_modified"])
+            for item in user_item_list:
+                writer.writerow([item.title, item.first_name, item.last_name, item.email, item.address, item.date_created, item.last_modified])
+            ic("Writing done.")
+            return response
+        except Exception as generating_csv_error:
+            ic(generating_csv_error)
+            return redirect("contacts:manual_index")
     return redirect("contacts:manual_index")
