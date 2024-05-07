@@ -3,7 +3,7 @@ from django.http import HttpResponseForbidden
 from contacts.models import ContactEntry
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from contacts.forms import NewContactForm
+from contacts.forms import NewContactForm, QuickNewContactForm
 from contacts.utils import make_new_contact_entry
 from django.core.paginator import Paginator
 import csv
@@ -12,13 +12,13 @@ ic.configureOutput(includeContext=True)
 
 @login_required
 def index(request):
+    context = {}
+    context["quickForm"] = QuickNewContactForm()
     user_contact_list = ContactEntry.objects.filter(owner__pk=request.user.pk)
     paginator = Paginator(user_contact_list, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context = {
-        "page_obj": page_obj
-    }
+    context["page_obj"] = page_obj
     return render(request, "contacts/manual/index.html", context=context)
 
 @login_required
@@ -165,4 +165,23 @@ def download_csv(request):
         except Exception as generating_csv_error:
             ic(generating_csv_error)
             return redirect("contacts:manual_index")
+    return redirect("contacts:manual_index")
+
+@login_required
+def quick_new_contact(request):
+    if request.method == "POST":
+        form = QuickNewContactForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            phone_number = form.cleaned_data["phone_number"]
+            try:
+                new_contact = ContactEntry()
+                new_contact.title = title
+                new_contact.phone_number = phone_number
+                new_contact.owner = request.user
+                new_contact.save()
+                messages.success(request, "مخاطب افزوده شد.")
+            except Exception as error:
+                ic(error)
+                messages.error(request, "خطای سیستم")
     return redirect("contacts:manual_index")

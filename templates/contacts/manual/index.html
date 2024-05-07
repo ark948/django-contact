@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% load contacts_extra_tags %}
 
 {% block title %}لیست مخاطبین{% endblock title %}
@@ -82,6 +83,18 @@
         {% csrf_token %}
         <input name="id_for_csv" type="hidden" value="{{ user.id }}">
         <button class="btn btn-primary" type="submit" style="width: 125px;">ذخیره... (csv)</button>
+    </form>
+</p>
+<br>
+<p>
+    <h6>> افزودن سریع</h6>
+    <form method="post" action="{% url 'contacts:quick_new_contact' %}">
+        <style>
+            input {max-width: 20em};
+        </style>
+        {% csrf_token %}
+        {{ quickForm|crispy }}
+        <button class="btn btn-success" type="submit">ذخیره</button>
     </form>
 </p>
 

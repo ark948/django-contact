@@ -9,3 +9,7 @@ class NewContactForm(forms.Form):
     phone_number = forms.CharField(max_length=40, label="شماره تماس:", required=False)
     email = forms.EmailField(label="ایمیل:", required=False)
     address = forms.CharField(label="آدرس:", required=False)
+
+class QuickNewContactForm(forms.Form):
+    title = forms.CharField(max_length=200, label="عنوان:", required=True)
+    phone_number = forms.CharField(max_length=150, label="شماره تماس:", required=False)
