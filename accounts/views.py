@@ -37,6 +37,7 @@ def manual_login(request):
                 try:
                     login(request, user)
                     messages.success(request, "ورود با موفیت.")
+                    return redirect("pages:home")
                 except Exception as login_error:
                     messages.error(request, "خطا در فرایند ورود.")
                     return redirect("accounts:panel")
